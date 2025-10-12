@@ -15,7 +15,7 @@ open class CommonServiceImpl<E, ID : Serializable, R : CommonRepository<E, ID>>(
 
     override fun getById(id: ID?): E? {
         val entityOptional = repo.findById(id!!)
-        if (entityOptional.isPresent) throw AppException.of("Document not found")
+        if (!entityOptional.isPresent) throw AppException.of("Document not found")
         return entityOptional.get()
     }
 

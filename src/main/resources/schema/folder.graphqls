@@ -1,0 +1,33 @@
+type FolderDocument {
+  id: ID
+  user: UserDocument
+  name: String
+  parentFolder: FolderDocument
+  coverUrl: String
+  isShared: Boolean
+  isDeleted: Boolean
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input FolderInput {
+  id: ID
+  userId: ID!
+  name: String!
+  parentFolderId: ID
+  coverUrl: String
+  isShared: Boolean
+  isDeleted: Boolean
+}
+
+type Query {
+  getFolder(id: ID!): FolderDocument
+  getFolderByName(name: String!): FolderDocument
+  getAllFolders: [FolderDocument]
+}
+
+extend type Mutation {
+  createFolder(folderInput: FolderInput!): FolderDocument
+  updateFolder(folderInput: FolderInput!): FolderDocument
+  deleteFolder(id: ID!): Boolean
+}
