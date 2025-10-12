@@ -17,10 +17,6 @@ class FolderQuery(
         return folderService.getById(folderDocument.id)
     }
 
-    @DgsQuery
-    fun getFolderByName(@InputArgument name: String): FolderDocument? {
-        return folderService.getByName(name)
-    }
 
     @DgsQuery
     fun getAllFolders(): MutableList<FolderDocument?>? {

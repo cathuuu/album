@@ -1,13 +1,11 @@
 package com.example.media_album.services.impl
 
-import com.example.media_album.models.documents.FolderDocument
 import com.example.media_album.models.documents.MediaDocument
 import com.example.media_album.models.documents.PhotoMeta
 import com.example.media_album.models.documents.VideoMeta
 import com.example.media_album.repositories.FolderRepository
 import com.example.media_album.repositories.MediaRepository
 import com.example.media_album.repositories.UserRepository
-import com.example.media_album.services.MediaLikeService
 import com.example.media_album.services.MediaService
 import jakarta.annotation.PostConstruct
 import org.bson.types.ObjectId
@@ -19,7 +17,6 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption
 import java.util.UUID
-import javax.print.attribute.standard.Media
 
 @Service
 class MediaServiceImpl(repo: MediaRepository,
@@ -105,5 +102,9 @@ class MediaServiceImpl(repo: MediaRepository,
 
     override fun findMediaByFolderId(folderId: ObjectId): List<MediaDocument> {
         return repo.findByFolderId(folderId)
+    }
+
+    override fun findByFilename(mediaName: String): MediaDocument? {
+        return repo.findByFilename(mediaName)
     }
 }

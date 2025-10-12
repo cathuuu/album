@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository
 interface MediaRepository: CommonRepository<MediaDocument, ObjectId> {
     fun findByFolderIsNullAndUserId(userId: ObjectId): List<MediaDocument>
     fun findByFolderId(folderId: ObjectId): List<MediaDocument>
+    fun findByFilename(filename: String): MediaDocument?
 }

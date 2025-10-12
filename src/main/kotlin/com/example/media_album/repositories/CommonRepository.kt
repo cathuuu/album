@@ -7,5 +7,4 @@ import org.springframework.data.repository.NoRepositoryBean
 interface CommonRepository<E, ID> : MongoRepository<E, ID> {
     fun deleteByIdIn(ids: MutableList<ID?>?)
 
-    fun findByName(name: String) : E
 }

@@ -14,4 +14,6 @@ interface MediaService : CommonService<MediaDocument, ObjectId> {
     fun findUnorganizedMediaByUserId(userId: ObjectId): List<MediaDocument>
 
     fun findMediaByFolderId(folderId: ObjectId): List<MediaDocument>
+
+    fun findByFilename(mediaName: String): MediaDocument?
 }

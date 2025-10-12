@@ -17,5 +17,4 @@ interface CommonService<E, ID : Serializable> {
 
     fun deleteByIdIn(ids: MutableList<ID?>?)
 
-    fun getByName(name: String): E?
 }

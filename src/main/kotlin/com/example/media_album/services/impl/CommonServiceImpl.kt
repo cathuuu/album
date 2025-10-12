@@ -39,7 +39,4 @@ open class CommonServiceImpl<E, ID : Serializable, R : CommonRepository<E, ID>>(
         repo.deleteByIdIn(ids)
     }
 
-    override fun getByName(name: String): E? {
-        return repo.findByName(name)
-    }
 }
