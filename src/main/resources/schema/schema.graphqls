@@ -1,6 +1,6 @@
 scalar DateTime
 
-union FileSystemItem = FolderDocument | Media
+union FileSystemItem = FolderDocument | MediaDocument
 
 type UserDocument {
     id: ID

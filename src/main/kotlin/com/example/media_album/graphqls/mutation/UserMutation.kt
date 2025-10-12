@@ -7,6 +7,7 @@ import com.example.media_album.services.UserService
 import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.InputArgument
+import org.bson.types.ObjectId
 
 
 @DgsComponent
@@ -32,7 +33,8 @@ class UserMutation(
     }
 
     @DgsMutation
-    fun deleteUser(@InputArgument userDocument: UserDocument)  {
-        userService.deleteById(userDocument.id)
+    fun deleteUser(@InputArgument id: String): Boolean  {
+        userService.deleteById(ObjectId(id))
+        return true
     }
 }

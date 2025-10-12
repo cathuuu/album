@@ -5,14 +5,16 @@ import com.example.media_album.services.PermissionService
 import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.InputArgument
+import org.bson.types.ObjectId
 
 @DgsComponent
 class PermissionMutation(
     private val permissionService: PermissionService,
 ) {
     @DgsMutation
-    fun deletePermission(@InputArgument permissionDocument: PermissionDocument) {
-        permissionService.deleteById(permissionDocument.id)
+    fun deletePermission(@InputArgument id: String): Boolean {
+        permissionService.deleteById(ObjectId(id))
+        return true
     }
 
     @DgsMutation
