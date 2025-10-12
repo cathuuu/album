@@ -5,23 +5,25 @@ import com.example.media_album.services.MediaShareService
 import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.InputArgument
+import org.bson.types.ObjectId
 
 @DgsComponent
 class MediaShareMutation(
     private val mediaShareService: MediaShareService
 ) {
     @DgsMutation
-    fun deleteShareFolder(@InputArgument mediaShareDocument: MediaShareDocument) {
-        mediaShareService.deleteById(mediaShareDocument.id)
+    fun deleteMediaShare(@InputArgument id: String): Boolean {
+        mediaShareService.deleteById(ObjectId(id))
+        return true
     }
 
     @DgsMutation
-    fun createShareFolder(@InputArgument mediaShareDocument: MediaShareDocument): MediaShareDocument? {
+    fun createMediaShare(@InputArgument mediaShareDocument: MediaShareDocument): MediaShareDocument? {
         return mediaShareService.save(mediaShareDocument)
     }
 
     @DgsMutation
-    fun updateShareFolder(@InputArgument mediaShareDocument: MediaShareDocument): MediaShareDocument? {
+    fun updateMediaShare(@InputArgument mediaShareDocument: MediaShareDocument): MediaShareDocument? {
         return mediaShareService.updateMediaShare(mediaShareDocument)
     }
 }

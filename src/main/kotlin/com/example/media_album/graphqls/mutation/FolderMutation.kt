@@ -5,6 +5,7 @@ import com.example.media_album.services.FolderService
 import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.InputArgument
+import org.bson.types.ObjectId
 
 @DgsComponent
 class FolderMutation(private val folderService: FolderService) {
@@ -19,7 +20,8 @@ class FolderMutation(private val folderService: FolderService) {
     }
 
     @DgsMutation
-    fun deleteFolder(@InputArgument folderDocument: FolderDocument)  {
-         folderService.deleteById(folderDocument.id)
+    fun deleteFolder(@InputArgument id: String): Boolean  {
+         folderService.deleteById(ObjectId(id))
+         return true
     }
 }

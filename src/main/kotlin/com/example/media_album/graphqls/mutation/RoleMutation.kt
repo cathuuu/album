@@ -5,6 +5,7 @@ import com.example.media_album.services.RoleService
 import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.InputArgument
+import org.bson.types.ObjectId
 
 @DgsComponent
 class RoleMutation(
@@ -21,7 +22,8 @@ class RoleMutation(
     }
 
     @DgsMutation
-    fun deleteRole(@InputArgument roleDocument: RoleDocument)  {
-        roleService.deleteById(roleDocument.id)
+    fun deleteRole(@InputArgument id: String): Boolean  {
+        roleService.deleteById(ObjectId(id))
+        return true
     }
 }
