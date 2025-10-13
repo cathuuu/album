@@ -1,14 +1,10 @@
 package com.example.media_album.services.impl
 
-import com.example.media_album.codegen.types.MediaShareInput
-import com.example.media_album.models.documents.FolderDocument
 import com.example.media_album.models.documents.FolderShareDocument
-import com.example.media_album.models.documents.MediaShareDocument
 import com.example.media_album.models.dtos.input.FolderShareInput
 import com.example.media_album.repositories.FolderRepository
 import com.example.media_album.repositories.FolderShareRepository
 import com.example.media_album.repositories.UserRepository
-import com.example.media_album.services.FolderService
 import com.example.media_album.services.FolderShareService
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
@@ -46,6 +42,15 @@ class FolderShareServiceImpl(repo : FolderShareRepository,
         )
 
         return repo.save(updatedShare)
+    }
+
+
+    override fun findByShareWithUserFullName(userName: String): List<FolderShareDocument?> {
+        return repo.findBySharedWith_FullName(userName)
+    }
+
+    override fun findByShareByUserFullName(userName: String): List<FolderShareDocument?> {
+        return repo.findBySharedBy_FullName(userName)
     }
 
     override fun createFolderShare(folderShareDocument: FolderShareInput): FolderShareDocument? {

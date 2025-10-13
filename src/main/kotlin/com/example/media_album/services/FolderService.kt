@@ -15,4 +15,6 @@ interface FolderService : CommonService<FolderDocument, ObjectId> {
 
     fun findByFolderName( folderName: String): List<FolderDocument?>
 
+    fun findByUserIdAndIsDeletedTrue(userId: ObjectId): List<FolderDocument>
+
 }

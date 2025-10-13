@@ -1,4 +1,4 @@
-package com.example.media_album.graphqls.query
+package com.example.media_album.graphqls.dataFetcher
 
 import com.example.media_album.models.dtos.FileSystemItem
 import com.example.media_album.services.FileSystemService
@@ -36,5 +36,11 @@ class FileSystemItemResolver( private val fileSystemService: FileSystemService
         "folder" -> "Folder"
         "media" -> "Media"
         else -> "Unknown"
+    }
+
+    @DgsQuery
+    fun getDeletedItems(@InputArgument userId: String): List<FileSystemItem> {
+        // Ủy quyền việc truy vấn logic cho FileSystemService
+        return fileSystemService.getDeletedItems(ObjectId(userId))
     }
 }

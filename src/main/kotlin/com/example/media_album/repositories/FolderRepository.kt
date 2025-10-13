@@ -13,4 +13,5 @@ interface FolderRepository: CommonRepository<FolderDocument, ObjectId>  {
     fun findByParentFolderId(parentId: ObjectId): List<FolderDocument>
     @Query("{ 'name': ?0 }")
     fun findByFolderName(name: String): List<FolderDocument>
+    fun findByUserIdAndIsDeletedTrue(userId: ObjectId): List<FolderDocument>
 }

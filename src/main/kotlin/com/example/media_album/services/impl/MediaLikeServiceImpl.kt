@@ -38,4 +38,8 @@ class MediaLikeServiceImpl(repo : MediaLikeRepository,
         return repo.save(newLike)
     }
 
+    override fun findAllByUserId(userId: String): List<MediaLikeDocument> {
+        return repo.findAllByUserId(userId)
+    }
+
 }

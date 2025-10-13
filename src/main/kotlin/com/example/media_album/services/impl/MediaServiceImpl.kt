@@ -107,4 +107,8 @@ class MediaServiceImpl(repo: MediaRepository,
     override fun findByFilename(mediaName: String): MediaDocument? {
         return repo.findByFilename(mediaName)
     }
+
+    override fun findByUserIdAndIsDeletedTrue(userId: ObjectId): List<MediaDocument> {
+        return repo.findByUserIdAndIsDeletedTrue(userId)
+    }
 }

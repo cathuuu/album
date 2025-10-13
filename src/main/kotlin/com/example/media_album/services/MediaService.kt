@@ -16,4 +16,6 @@ interface MediaService : CommonService<MediaDocument, ObjectId> {
     fun findMediaByFolderId(folderId: ObjectId): List<MediaDocument>
 
     fun findByFilename(mediaName: String): MediaDocument?
+
+    fun findByUserIdAndIsDeletedTrue(userId: ObjectId) : List<MediaDocument>
 }

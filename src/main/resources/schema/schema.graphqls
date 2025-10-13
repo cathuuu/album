@@ -196,6 +196,14 @@ type Mutation {
 type Query{
     rootItems(userId: ID!): [FileSystemItem]
     getFolderContents(folderId: ID!): [FileSystemItem]
+    getDeletedItems( userId: String): [FileSystemItem]
+
     getFolder(id: ID!): FolderDocument
     getAllFolders: [FolderDocument]
+
+    findFolderSharesWithByUserFullName(fullName : String): FolderShareDocument
+    findFolderSharesByUserFullName(fullName: String): FolderShareDocument
+
+    findMediaShareWithByUserFullName(fullName : String): MediaShareDocument
+    findMediaShareByUserFullName(fullName: String): MediaShareDocument
 }

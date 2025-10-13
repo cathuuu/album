@@ -7,4 +7,6 @@ import org.bson.types.ObjectId
 
 interface MediaLikeService : CommonService<MediaLikeDocument, ObjectId> {
     fun createMediaLike(mediaLikeDocument: MediaLikeInput) : MediaLikeDocument?
+
+    fun findAllByUserId(userId: String): List<MediaLikeDocument>
 }

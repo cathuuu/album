@@ -63,5 +63,7 @@ private val userRepository: UserRepository) : CommonServiceImpl<FolderDocument, 
         return repo.findByFolderName(folderName)
     }
 
-
+    override fun findByUserIdAndIsDeletedTrue(userId: ObjectId): List<FolderDocument> {
+        return repo.findByUserIdAndIsDeletedTrue(userId)
+    }
 }

@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface MediaLikeRepository: CommonRepository<MediaLikeDocument, ObjectId> {
     fun findByMediaAndUser(media: MediaDocument, user: UserDocument)
+
+    fun findAllByUserId(userId: String): List<MediaLikeDocument>
 }

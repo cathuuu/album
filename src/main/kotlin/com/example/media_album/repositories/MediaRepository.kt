@@ -11,4 +11,5 @@ interface MediaRepository: CommonRepository<MediaDocument, ObjectId> {
     fun findByFolderId(folderId: ObjectId): List<MediaDocument>
     fun findByFilename(filename: String): MediaDocument?
     fun id(id: ObjectId): MutableList<MediaDocument>
+    fun findByUserIdAndIsDeletedTrue(userId : ObjectId): List<MediaDocument>
 }

@@ -11,4 +11,9 @@ interface FolderShareService : CommonService<FolderShareDocument, ObjectId> {
     fun createFolderShare(folderShareDocument: FolderShareInput): FolderShareDocument?
 
     fun updateShareFolder( folderShareDocument: FolderShareInput): FolderShareDocument?
+
+
+    fun findByShareWithUserFullName(userName: String): List<FolderShareDocument?>
+
+    fun findByShareByUserFullName(userName: String): List<FolderShareDocument?>
 }

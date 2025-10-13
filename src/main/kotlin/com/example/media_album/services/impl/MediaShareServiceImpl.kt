@@ -56,4 +56,12 @@ class MediaShareServiceImpl(repo : MediaShareRepository,
 
         return repo.save(newShare)
     }
+
+    override fun findByShareWithUserFullName(userName: String): List<MediaShareDocument?> {
+        return repo.findBySharedWith_FullName(userName)
+    }
+
+    override fun findByShareByUserFullName(userName: String): List<MediaShareDocument?> {
+        return repo.findBySharedBy_FullName(userName)
+    }
 }

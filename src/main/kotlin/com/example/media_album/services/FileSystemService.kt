@@ -5,6 +5,7 @@ import com.example.media_album.models.dtos.FolderDto
 import com.example.media_album.models.dtos.MediaDto
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
+import java.time.Instant
 
 @Service
 class FileSystemService(
@@ -56,5 +57,22 @@ class FileSystemService(
         return (subFolders + mediaItems).sortedWith(
             compareBy<FileSystemItem> { it.itemType }.thenBy { it.name }
         )
+    }
+    fun getDeletedItems(userId: ObjectId): List<FileSystemItem> {
+        // 1. Lấy tất cả Folder đã bị xóa và map sang DTO
+        val deletedFolders: List<FileSystemItem> = folderService
+            .findByUserIdAndIsDeletedTrue(userId)
+            .map { FolderDto.fromDocument(it, itemCount = 0) }
+
+        // 2. Lấy tất cả Media đã bị xóa và map sang DTO
+        val deletedMedia: List<FileSystemItem> = mediaService
+            .findByUserIdAndIsDeletedTrue(userId)
+            .map { MediaDto.fromDocument(it) }
+
+        // 3. Gộp danh sách
+        val combinedList = deletedFolders + deletedMedia
+
+        // 4. Sắp xếp theo deletedAt (mới nhất trước)
+        return combinedList.sortedByDescending { it.updatedAt ?: Instant.EPOCH }
     }
 }
