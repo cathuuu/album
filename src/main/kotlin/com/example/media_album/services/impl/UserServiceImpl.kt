@@ -1,6 +1,7 @@
 package com.example.media_album.services.impl
 
 import com.example.media_album.models.documents.UserDocument
+import com.example.media_album.models.dtos.input.UserInput
 import com.example.media_album.repositories.UserRepository
 import com.example.media_album.services.UserService
 import org.bson.types.ObjectId
@@ -10,7 +11,7 @@ import java.time.Instant
 @Service
 class UserServiceImpl(repo: UserRepository) : CommonServiceImpl<UserDocument, ObjectId, UserRepository>(repo),
     UserService {
-    override fun updateUser(userDocument: UserDocument): UserDocument {
+    override fun updateUser(userDocument: UserInput): UserDocument {
         val id = userDocument.id ?: throw IllegalArgumentException("Folder ID is required!")
 
         val existingFolder = repo.findById(id)

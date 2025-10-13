@@ -7,14 +7,15 @@ import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.DgsQuery
 import com.netflix.graphql.dgs.InputArgument
 import graphql.com.google.common.base.Objects
+import org.bson.types.ObjectId
 
 @DgsComponent
 class FolderQuery(
     private val folderService: FolderService
 ) {
     @DgsQuery
-    fun getFolder(@InputArgument folderDocument: FolderDocument): FolderDocument? {
-        return folderService.getById(folderDocument.id)
+    fun getFolder(@InputArgument id: String): FolderDocument? {
+        return folderService.getById(ObjectId(id))
     }
 
 

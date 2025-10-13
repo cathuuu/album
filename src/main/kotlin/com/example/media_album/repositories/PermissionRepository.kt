@@ -5,4 +5,5 @@ import org.bson.types.ObjectId
 import org.springframework.stereotype.Repository
 
 @Repository
-interface PermissionRepository : CommonRepository<PermissionDocument, ObjectId>
+interface PermissionRepository : CommonRepository<PermissionDocument, ObjectId> {
+}

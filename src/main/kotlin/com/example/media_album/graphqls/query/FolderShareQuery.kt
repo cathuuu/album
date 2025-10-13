@@ -9,4 +9,5 @@ import com.netflix.graphql.dgs.DgsQuery
 class FolderShareQuery(
     private val folderShareService: FolderShareService
 ) {
+
 }

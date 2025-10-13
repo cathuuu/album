@@ -1,6 +1,6 @@
 scalar DateTime
 
-union FileSystemItem = FolderDocument | Media
+union FileSystemItem = FolderDocument | MediaDocument
 
 type UserDocument {
     id: ID
@@ -28,7 +28,7 @@ input CreateUserInput {
 
 type FolderDocument {
     id: ID
-    user: User
+    user: UserDocument
     name: String!
     parentFolder: FolderDocument
     coverUrl: String
@@ -38,10 +38,18 @@ type FolderDocument {
     updatedAt: String
 }
 
-type User {
+
+
+input UserInput{
     id: ID
     username: String
+    phone: String
     email: String
+    fullName: String
+    gender: String
+    dob: String
+    statusUser: String
+    roleIds: [ID!]
 }
 
 input FolderInput {
@@ -57,8 +65,8 @@ input FolderInput {
 type FolderShareDocument {
     id: ID
     folder: FolderDocument
-    sharedWith: User
-    sharedBy: User
+    sharedWith: UserDocument
+    sharedBy: UserDocument
     permission: String
     createdAt: String
     updatedAt: String
@@ -74,7 +82,7 @@ input FolderShareInput {
 
 type MediaDocument {
     id: ID
-    user: User
+    user: UserDocument
     folder: FolderDocument
     type: String
     url: String
@@ -105,7 +113,7 @@ type VideoMeta {
 type MediaLikeDocument {
     id: ID
     media: MediaDocument
-    user: User
+    user: UserDocument
     createdAt: String
 }
 
@@ -118,8 +126,8 @@ input MediaLikeInput {
 type MediaShareDocument {
     id: ID
     media: MediaDocument
-    sharedWith: User
-    sharedBy: User
+    sharedWith: UserDocument
+    sharedBy: UserDocument
     permission: String
     createdAt: String
     updatedAt: String
@@ -152,9 +160,14 @@ type RoleDocument {
     createdAt: String
     updatedAt: String
 }
-
+input RoleInput {
+    roleName: String!
+    permissionIds: [ID!]
+}
 type Mutation {
-    createUser(user: CreateUserInput!): UserDocument
+    createUser(userDocument: CreateUserInput!): UserDocument
+    updateUser(userDocument: UserInput!): UserDocument
+    deleteUser(id : ID!): Boolean
 
     createFolder(folderDocument: FolderInput): FolderDocument
     updateFolder(folderDocument: FolderInput!): FolderDocument
@@ -175,12 +188,14 @@ type Mutation {
     updatePermission(permissionDocument: PermissionInput!): PermissionDocument
     deletePermission(id: ID!): Boolean
 
-    createRole(roleName: String!, permissionIds: [ID!]): RoleDocument
-    updateRole(id: ID!, roleName: String, permissionIds: [ID!]): RoleDocument
+    createRole(roleDocument: RoleInput!): RoleDocument
+    updateRole(roleDocument: RoleInput!): RoleDocument
     deleteRole(id: ID!): Boolean
 }
 
 type Query{
     rootItems(userId: ID!): [FileSystemItem]
     getFolderContents(folderId: ID!): [FileSystemItem]
+    getFolder(id: ID!): FolderDocument
+    getAllFolders: [FolderDocument]
 }

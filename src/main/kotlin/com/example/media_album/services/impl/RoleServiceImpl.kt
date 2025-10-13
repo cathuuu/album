@@ -1,30 +1,50 @@
 package com.example.media_album.services.impl
 
-import com.example.media_album.models.documents.MediaShareDocument
 import com.example.media_album.models.documents.RoleDocument
-import com.example.media_album.repositories.MediaShareRepository
+import com.example.media_album.models.dtos.input.RoleInput
+import com.example.media_album.repositories.PermissionRepository
 import com.example.media_album.repositories.RoleRepository
-import com.example.media_album.services.MediaShareService
 import com.example.media_album.services.RoleService
+import com.example.media_album.utils.getByIdOrThrow
 import org.bson.types.ObjectId
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.time.Instant
 
 @Service
-class RoleServiceImpl(repo : RoleRepository) : CommonServiceImpl<RoleDocument, ObjectId, RoleRepository>(repo),
+class RoleServiceImpl(repo : RoleRepository,
+    private val permissionRepository: PermissionRepository) : CommonServiceImpl<RoleDocument, ObjectId, RoleRepository>(repo),
     RoleService {
-    override fun updateRole(roleDocument: RoleDocument): RoleDocument {
-        val id = roleDocument.id ?: throw IllegalArgumentException("Folder ID is required!")
+    override fun updateRole(roleDocument: RoleInput): RoleDocument {
+        val id = roleDocument.id ?: throw IllegalArgumentException("Role ID is required!")
 
-        val existingFolder = repo.findById(id)
-            .orElseThrow { RuntimeException("Folder not found") }
+        val existingRole = repo.findById(ObjectId(id))
+            .orElseThrow { RuntimeException("Role not found") }
+
+        // Lấy danh sách permission từ DB nếu có
+        val permissions = roleDocument.permissionIds?.map {
+            permissionRepository.getByIdOrThrow(id,"permissions")
+        }
 
         // Cập nhật thông tin
-        val updatedFolder = existingFolder.copy(
+        val updatedRole = existingRole.copy(
             roleName = roleDocument.roleName,
-            permissions = roleDocument.permissions,
+            permissions = permissions,
             updatedAt = Instant.now()
         )
-        return repo.save(updatedFolder)
+
+        return repo.save(updatedRole)
+    }
+
+    override fun createRole(roleDocument: RoleInput): RoleDocument {
+        val permissionObjectIds = roleDocument.permissionIds!!.map { ObjectId(it) }
+
+        val permissions = permissionRepository.findAllById(permissionObjectIds).toList()
+
+        val role = RoleDocument(
+            roleName = roleDocument.roleName,
+            permissions = permissions
+        )
+        return repo.save(role)
     }
 }

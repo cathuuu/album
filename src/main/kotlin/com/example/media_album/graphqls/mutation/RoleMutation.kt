@@ -1,27 +1,33 @@
 package com.example.media_album.graphqls.mutation
 
 import com.example.media_album.models.documents.RoleDocument
+import com.example.media_album.models.dtos.input.RoleInput
+import com.example.media_album.repositories.PermissionRepository
 import com.example.media_album.services.RoleService
 import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.InputArgument
+import org.bson.types.ObjectId
 
 @DgsComponent
 class RoleMutation(
     private val roleService: RoleService,
+     val permissionRepository: PermissionRepository
 ) {
     @DgsMutation
-    fun createRole(@InputArgument roleDocument: RoleDocument) : RoleDocument? {
-        return roleService.save(roleDocument)
+    fun createRole(
+        @InputArgument roleDocument: RoleInput
+    ): RoleDocument? {
+        return roleService.createRole(roleDocument)
     }
-
     @DgsMutation
-    fun updateRole(@InputArgument roleDocument: RoleDocument) : RoleDocument? {
+    fun updateRole(@InputArgument roleDocument: RoleInput) : RoleDocument? {
         return roleService.updateRole(roleDocument)
     }
 
     @DgsMutation
-    fun deleteRole(@InputArgument roleDocument: RoleDocument)  {
-        roleService.deleteById(roleDocument.id)
+    fun deleteRole(@InputArgument(name = "id") id: String): Boolean  {
+        roleService.deleteById(ObjectId(id))
+        return true
     }
 }
