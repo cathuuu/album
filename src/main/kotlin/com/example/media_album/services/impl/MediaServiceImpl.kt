@@ -82,8 +82,8 @@ class MediaServiceImpl(repo: MediaRepository,
 
         // 5. Tạo document và lưu DB
         val mediaDocument = MediaDocument(
-            user = userDocument,
-            folder = folderDocument,
+            user = userDocument.id!!,
+            folder = folderDocument?.id!!,
             type = fileType,
             url = fileUrl,
             filename = file.originalFilename ?: uniqueFilename,
@@ -97,11 +97,11 @@ class MediaServiceImpl(repo: MediaRepository,
     }
 
     override fun findUnorganizedMediaByUserId(userId: ObjectId): List<MediaDocument> {
-        return repo.findByFolderIsNullAndUserId(userId)
+        return repo.findByFolderIsNullAndUser(userId)
     }
 
     override fun findMediaByFolderId(folderId: ObjectId): List<MediaDocument> {
-        return repo.findByFolderId(folderId)
+        return repo.findByFolder(folderId)
     }
 
     override fun findByFilename(mediaName: String): MediaDocument? {
@@ -109,6 +109,10 @@ class MediaServiceImpl(repo: MediaRepository,
     }
 
     override fun findByUserIdAndIsDeletedTrue(userId: ObjectId): List<MediaDocument> {
-        return repo.findByUserIdAndIsDeletedTrue(userId)
+        return repo.findByUserAndIsDeletedTrue(userId)
+    }
+
+    override fun getAllByUserId(userId: ObjectId): List<MediaDocument> {
+        return  repo.findAllByUser(userId)
     }
 }

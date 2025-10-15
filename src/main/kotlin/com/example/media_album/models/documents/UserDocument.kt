@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Document(collection = "users")
@@ -24,13 +25,12 @@ data class UserDocument(
     val fullName: String?,
 
     val gender: String?, // male | female | other
-    val dob: LocalDateTime?,
+    val dob: LocalDate?,
 
     @Field("status_user")
     val statusUser: String = "active", // active | inactive | banned
 
-    @DBRef
-    val roles: List<RoleDocument>? = null,
+    val roles: List<ObjectId> = emptyList(),
 
     @CreatedDate
     @Field("created_at")

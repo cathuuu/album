@@ -19,43 +19,68 @@ private val userRepository: UserRepository) : CommonServiceImpl<FolderDocument, 
         val user = userRepository.findById(ObjectId(folderDocument.userId))
             .orElseThrow { RuntimeException("User not found") }
 
-        val parentFolder = folderDocument.parentFolderId?.let { repo.findById(ObjectId(it)).orElse(null) }
+        val parentFolder = folderDocument.parentId?.let {
+            repo.findById(ObjectId(it)).orElse(null)
+        }
 
+        //  Tạo lại path
+        val newPath = if (parentFolder != null)
+            "${parentFolder.path}/${folderDocument.name}"
+        else
+            "/${folderDocument.name}"
+
+        //  Cập nhật folder
         val updatedFolder = existingFolder.copy(
             name = folderDocument.name!!,
-            parentFolder = parentFolder,
-            user = user,
+            parentId = parentFolder?.id,
+            userId = user.id,
             coverUrl = folderDocument.coverUrl,
             isShared = folderDocument.isShared,
+            path = newPath,
             updatedAt = Instant.now()
         )
-
 
         return repo.save(updatedFolder)
     }
     override fun findRootFoldersByOwnerId(ownerId: ObjectId): List<FolderDocument> {
-        return repo.findByUserIdAndParentFolderIsNull(ownerId)
+        return repo.findByUserIdAndParentIdIsNull(ownerId)
     }
 
     override fun findSubFoldersByParentId(parentId: ObjectId): List<FolderDocument> {
-        return repo.findByParentFolderId(parentId)
+        return repo.findByParentId(parentId)
     }
 
     override fun saveFolder(folderDocument: FolderInput?): FolderDocument {
-        val user = userRepository.findById(ObjectId(folderDocument?.userId))
+        if (folderDocument == null) {
+            throw IllegalArgumentException("Folder input cannot be null")
+        }
+
+        //  Tìm user theo ID
+        val user = userRepository.findById(ObjectId(folderDocument.userId))
             .orElseThrow { RuntimeException("User not found") }
 
-        val parentFolder = folderDocument?.parentFolderId?.let { repo.findById(ObjectId(it)).orElse(null) }
+        // Kiểm tra folder cha (nếu có)
+        val parentFolder = folderDocument.parentId?.let {
+            repo.findById(ObjectId(it)).orElse(null)
+        }
 
+        // Sinh đường dẫn path tự động
+        val path = if (parentFolder != null)
+            "${parentFolder.path}/${folderDocument.name}"
+        else
+            "/${folderDocument.name}"
+
+        // tạo folder mới
         val newFolder = FolderDocument(
-            user = user,
-            name = folderDocument?.name!!,
-            parentFolder = parentFolder,
+            userId = user.id,
+            name = folderDocument.name,
+            parentId = parentFolder?.id,
             coverUrl = folderDocument.coverUrl,
             isShared = folderDocument.isShared,
-            updatedAt = Instant.now()
+            path = path
         )
 
+        // 5️⃣ Lưu vào Mongo
         return repo.save(newFolder)
     }
 

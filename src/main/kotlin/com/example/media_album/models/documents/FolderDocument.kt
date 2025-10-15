@@ -5,7 +5,6 @@ import org.bson.types.ObjectId
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
-import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
 import java.time.Instant
@@ -15,22 +14,23 @@ data class FolderDocument(
     @Id
     val id: ObjectId? = null,
 
-    @DBRef
     @Field("user_id")
-    var user: UserDocument,
+    var userId: ObjectId?=null,
 
     var name: String,
 
     // Folder cha (null nếu là root)
-    @DBRef
     @Field("parent_id")
-    var parentFolder: FolderDocument? = null,
+    var parentId: ObjectId? = null,
 
     @Field("cover_url")
     var coverUrl: String? = null,
 
     @Field("is_shared")
     var isShared: Boolean? = false,
+
+    @Field("path")
+    var path: String? = null,
 
     @Field("is_deleted")
     var isDeleted: Boolean? = false,

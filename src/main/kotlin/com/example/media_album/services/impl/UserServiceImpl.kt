@@ -7,18 +7,19 @@ import com.example.media_album.services.UserService
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
 import java.time.Instant
+import java.time.LocalDateTime
 
 @Service
 class UserServiceImpl(repo: UserRepository) : CommonServiceImpl<UserDocument, ObjectId, UserRepository>(repo),
     UserService {
     override fun updateUser(userDocument: UserInput): UserDocument {
-        val id = userDocument.id ?: throw IllegalArgumentException("Folder ID is required!")
+        val id = userDocument.id ?: throw IllegalArgumentException("User ID is required!")
 
-        val existingFolder = repo.findById(id)
-            .orElseThrow { RuntimeException("Folder not found") }
+        val objectId = id
+        val existingUser = repo.findById(objectId)
+            .orElseThrow { RuntimeException("User not found") }
 
-        // Cập nhật thông tin
-        val updatedFolder = existingFolder.copy(
+        val updatedUser = existingUser.copy(
             password = userDocument.password,
             phone = userDocument.phone,
             fullName = userDocument.fullName,
@@ -26,9 +27,10 @@ class UserServiceImpl(repo: UserRepository) : CommonServiceImpl<UserDocument, Ob
             gender = userDocument.gender,
             dob = userDocument.dob,
             statusUser = userDocument.statusUser,
-            roles = userDocument.roles,
+            roles = userDocument.roles!!,
             updatedAt = Instant.now()
         )
-        return repo.save(updatedFolder)
+
+        return repo.save(updatedUser)
     }
 }

@@ -32,7 +32,7 @@ data class FolderDto(
                 isDeleted = doc.isDeleted ?: false, // Xử lý null
 
                 // Lấy ID của Folder cha (tham chiếu)
-                parentFolderId = doc.parentFolder?.id?.toHexString(),
+                parentFolderId = doc.parentId?.toHexString(),
                 coverUrl = doc.coverUrl,
                 itemCount = itemCount
             )

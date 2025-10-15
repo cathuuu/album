@@ -15,17 +15,14 @@ data class MediaShareDocument(
     @Id
     val id: ObjectId? = null,
 
-    @DBRef
     @Field("media_id")
-    val media: MediaDocument,
+    val media: ObjectId,
 
-    @DBRef
     @Field("shared_with")
-    val sharedWith: UserDocument,
+    val sharedWith: ObjectId,
 
-    @DBRef
     @Field("shared_by")
-    val sharedBy: UserDocument,
+    val sharedBy: ObjectId,
 
     val permission: String, // "view" | "edit"
 

@@ -13,7 +13,7 @@ import org.bson.types.ObjectId
 class FolderMutation(private val folderService: FolderService) {
     @DgsMutation
     fun createFolder(@InputArgument folderDocument: FolderInput?) : FolderDocument? {
-        return folderService.saveFolder( folderDocument)
+        return folderService.saveFolder(folderDocument)
     }
 
     @DgsMutation

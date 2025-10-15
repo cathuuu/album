@@ -26,9 +26,9 @@ class MediaShareServiceImpl(repo : MediaShareRepository,
         val sharedBy = userRepo.getByIdOrThrow(mediaShareDocument.sharedById, "Owner")
 
         val updatedShare = existingShare.copy(
-            media = media,
-            sharedWith = sharedWith,
-            sharedBy = sharedBy,
+            media = media.id!!,
+            sharedWith = sharedWith.id!!,
+            sharedBy = sharedBy.id!!,
             permission = mediaShareDocument.permission,
             updatedAt = Instant.now()
         )
@@ -42,14 +42,14 @@ class MediaShareServiceImpl(repo : MediaShareRepository,
         val sharedBy = userRepo.getByIdOrThrow(mediaShareDocument.sharedById, "Owner")
 
         // Kiểm tra trùng chia sẻ
-        repo.findByMediaAndSharedWith(media, sharedWith)?.let {
+        repo.findByMediaAndSharedWith(media.id!!, sharedWith.id!!)?.let {
             throw RuntimeException("This media has already been shared with this user")
         }
 
         val newShare = MediaShareDocument(
-            media = media,
-            sharedWith = sharedWith,
-            sharedBy = sharedBy,
+            media = media.id!!,
+            sharedWith = sharedWith.id!!,
+            sharedBy = sharedBy.id!!,
             permission = mediaShareDocument.permission,
             createdAt = Instant.now()
         )
@@ -58,10 +58,10 @@ class MediaShareServiceImpl(repo : MediaShareRepository,
     }
 
     override fun findByShareWithUserFullName(userName: String): List<MediaShareDocument?> {
-        return repo.findBySharedWith_FullName(userName)
+        return repo.findBySharedWithName(userName)
     }
 
     override fun findByShareByUserFullName(userName: String): List<MediaShareDocument?> {
-        return repo.findBySharedBy_FullName(userName)
+        return repo.findBySharedByName(userName)
     }
 }

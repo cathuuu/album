@@ -5,8 +5,9 @@ import com.example.media_album.services.MediaService
 import org.bson.types.ObjectId
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestAttribute
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -44,8 +45,14 @@ class MediaController(
         }
     }
     @PostMapping("/update")
-    fun updateMedia(mediaDocument: MediaDocument): ResponseEntity<MediaDocument> {
+    fun updateMedia(@RequestParam mediaDocument: MediaDocument): ResponseEntity<MediaDocument> {
         val result = mediaService.save(mediaDocument)
+        return ResponseEntity.ok(result)
+    }
+
+    @GetMapping("/{user_id}")
+    fun getAllByUserId(@PathVariable("user_id") userId: ObjectId): ResponseEntity<List<MediaDocument>> {
+        val result = mediaService.getAllByUserId(userId)
         return ResponseEntity.ok(result)
     }
 }

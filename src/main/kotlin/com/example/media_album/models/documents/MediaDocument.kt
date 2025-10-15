@@ -16,13 +16,11 @@ data class MediaDocument(
     @Id
     val id: ObjectId? = null,
 
-    @DBRef
     @Field("user_id")
-    val user: UserDocument,
+    val user: ObjectId,
 
-    @DBRef
     @Field("folder_id")
-    val folder: FolderDocument? = null,
+    val folder: ObjectId? = null,
 
     val type: String, // "photo" | "video"
     val url: String,

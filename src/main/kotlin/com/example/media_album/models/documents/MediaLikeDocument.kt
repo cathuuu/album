@@ -14,13 +14,11 @@ data class MediaLikeDocument(
     @Id
     val id: ObjectId? = null,
 
-    @DBRef
     @Field("media_id")
-    val media: MediaDocument,
+    val media: ObjectId,
 
-    @DBRef
     @Field("user_id")
-    val user: UserDocument,
+    val user: ObjectId,
 
     @CreatedDate
     @Field("created_at")

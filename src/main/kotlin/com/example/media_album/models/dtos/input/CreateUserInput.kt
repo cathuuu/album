@@ -1,5 +1,6 @@
 package com.example.media_album.models.dtos.input
 
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class CreateUserInput(
@@ -9,5 +10,5 @@ data class CreateUserInput(
     val email: String?,
     val fullName: String?,
     val gender: String?,
-    val dob: LocalDateTime?,
+    val dob: LocalDate?,
 )

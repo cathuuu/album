@@ -9,7 +9,6 @@ import com.example.media_album.services.MediaLikeService
 import com.example.media_album.utils.getByIdOrThrow
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
-import java.time.Instant
 
 @Service
 class MediaLikeServiceImpl(repo : MediaLikeRepository,
@@ -24,22 +23,22 @@ class MediaLikeServiceImpl(repo : MediaLikeRepository,
             .orElseThrow { RuntimeException("User not found") }
 
         // 3. Kiểm tra đã like chưa (chú ý truyền đúng media và user)
-        val existingLike = repo.findByMediaAndUser(media, user)
+        val existingLike = repo.findByMediaAndUser(media.id!!, user.id!!)
         if (existingLike != null) {
             throw RuntimeException("User has already liked this media")
         }
 
         // 4. Tạo và lưu MediaLikeDocument
         val newLike = MediaLikeDocument(
-            media = media, // ✅ media là MediaDocument
-            user = user    // ✅ user là UserDocument
+            media = media.id!!, // ✅ media là MediaDocument
+            user = user.id!!    // ✅ user là UserDocument
         )
 
         return repo.save(newLike)
     }
 
     override fun findAllByUserId(userId: String): List<MediaLikeDocument> {
-        return repo.findAllByUserId(userId)
+        return repo.findAllByUser(ObjectId(userId))
     }
 
 }

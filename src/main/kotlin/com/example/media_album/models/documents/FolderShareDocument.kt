@@ -15,17 +15,14 @@ data class FolderShareDocument(
     @Id
     val id: ObjectId? = null,
 
-    @DBRef
     @Field("folder_id")
-    val folder: FolderDocument,
+    val folder: ObjectId,
 
-    @DBRef
     @Field("shared_with")
-    val sharedWith: UserDocument,
+    val sharedWith: ObjectId,
 
-    @DBRef
     @Field("shared_by")
-    val sharedBy: UserDocument,
+    val sharedBy: ObjectId,
 
     val permission: String, // "view" | "edit"
 

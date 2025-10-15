@@ -40,7 +40,7 @@ data class MediaDto(
                 mimeType = doc.mimeType,
                 size = doc.size,
                 // Lấy ID của FolderDocument (tham chiếu)
-                folderId = doc.folder?.id?.toHexString(),
+                folderId = doc.folder?.toHexString(),
                 thumbnailUrl = null // Logic tạo thumbnail sẽ được thêm sau
             )
         }

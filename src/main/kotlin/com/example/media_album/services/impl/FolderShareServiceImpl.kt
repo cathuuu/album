@@ -34,9 +34,9 @@ class FolderShareServiceImpl(repo : FolderShareRepository,
 
         // Tạo bản cập nhật mới
         val updatedShare = existingShare.copy(
-            folder = folder,
-            sharedWith = sharedWith,
-            sharedBy = sharedBy,
+            folder = folder.id!!,
+            sharedWith = sharedWith.id!!,
+            sharedBy = sharedBy.id!!,
             permission = folderShareDocument.permission,
             updatedAt = Instant.now()
         )
@@ -46,11 +46,11 @@ class FolderShareServiceImpl(repo : FolderShareRepository,
 
 
     override fun findByShareWithUserFullName(userName: String): List<FolderShareDocument?> {
-        return repo.findBySharedWith_FullName(userName)
+        return repo.findBySharedWithName(userName)
     }
 
     override fun findByShareByUserFullName(userName: String): List<FolderShareDocument?> {
-        return repo.findBySharedBy_FullName(userName)
+        return repo.findBySharedByName(userName)
     }
 
     override fun createFolderShare(folderShareDocument: FolderShareInput): FolderShareDocument? {
@@ -64,9 +64,9 @@ class FolderShareServiceImpl(repo : FolderShareRepository,
             .orElseThrow { RuntimeException("Folder not found") }
 
         val share = FolderShareDocument(
-            folder = folder,
-            sharedWith = sharedWith,
-            sharedBy = sharedBy,
+            folder = folder.id!!,
+            sharedWith = sharedWith.id!!,
+            sharedBy = sharedBy.id!!,
             permission = folderShareDocument.permission,
         )
 
