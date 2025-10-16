@@ -16,11 +16,13 @@ class UserMutation(
 ) {
     @DgsMutation
     fun createUser(@InputArgument userDocument: CreateUserInput): UserDocument? {
+        val roleObjectIds = userDocument.roleIds.map { ObjectId(it) }
         val newUser = UserDocument(
             username = userDocument.username,
             password = userDocument.password,
             fullName = userDocument.fullName,
             gender = userDocument.gender,
+            roleIds = roleObjectIds,
             dob = userDocument.dob, // GraphQL auto convert
             email = userDocument.email,
             phone = userDocument.phone

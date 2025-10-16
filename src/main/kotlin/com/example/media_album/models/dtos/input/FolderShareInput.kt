@@ -14,13 +14,13 @@ data class FolderShareInput(
 
     val id: String? = null,
 
-    val folder: String,
+    val folderId: String,
 
-    val sharedWith: String,
+    val sharedWithId: String,
 
-    val sharedBy: String,
+    val sharedById: String,
 
-    val permission: String, // "view" | "edit"
+    val permission: List<String>, // "view" | "edit"
 
     val createdAt: Instant = Instant.now(),
 

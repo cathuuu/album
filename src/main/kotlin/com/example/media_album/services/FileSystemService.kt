@@ -37,10 +37,6 @@ class FileSystemService(
         )
     }
 
-    /**
-     * Lấy nội dung của một Folder cụ thể (Media và Sub-Folders).
-     * Hàm này sẽ phục vụ cho query 'getFolderContents(folderId)'.
-     */
     fun getFolderContents(folderId: ObjectId): List<FileSystemItem>? {
         // Đảm bảo Folder tồn tại
         folderService.getById(folderId) ?: return null

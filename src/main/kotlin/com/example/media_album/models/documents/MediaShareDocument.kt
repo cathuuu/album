@@ -5,7 +5,6 @@ import org.bson.types.ObjectId
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
-import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
 import java.time.Instant
@@ -24,7 +23,9 @@ data class MediaShareDocument(
     @Field("shared_by")
     val sharedBy: ObjectId,
 
-    val permission: String, // "view" | "edit"
+    val permission: List<String> = emptyList(),
+
+    val inherited: Boolean = false,
 
     @CreatedDate
     @Field("created_at")

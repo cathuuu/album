@@ -80,7 +80,7 @@ private val userRepository: UserRepository) : CommonServiceImpl<FolderDocument, 
             path = path
         )
 
-        // 5️⃣ Lưu vào Mongo
+        // Lưu vào Mongo
         return repo.save(newFolder)
     }
 

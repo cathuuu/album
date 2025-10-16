@@ -7,7 +7,6 @@ import com.example.media_album.services.UserService
 import org.bson.types.ObjectId
 import org.springframework.stereotype.Service
 import java.time.Instant
-import java.time.LocalDateTime
 
 @Service
 class UserServiceImpl(repo: UserRepository) : CommonServiceImpl<UserDocument, ObjectId, UserRepository>(repo),
@@ -27,7 +26,7 @@ class UserServiceImpl(repo: UserRepository) : CommonServiceImpl<UserDocument, Ob
             gender = userDocument.gender,
             dob = userDocument.dob,
             statusUser = userDocument.statusUser,
-            roles = userDocument.roles!!,
+            roleIds = userDocument.roles!!,
             updatedAt = Instant.now()
         )
 

@@ -9,6 +9,7 @@ type UserDocument {
     fullName: String
     gender: String
     dob: DateTime
+    roleIds :[ID!]
     email: String
     phone: String
     statusUser: String
@@ -22,6 +23,7 @@ input CreateUserInput {
     fullName: String
     gender: String
     dob: DateTime
+    roleIds: [ID!]
     email: String
     phone: String
 }
@@ -30,7 +32,7 @@ type FolderDocument {
     id: ID
     user: UserDocument
     name: String!
-    parentFolder: FolderDocument
+    parentId: FolderDocument
     coverUrl: String
     isShared: Boolean
     path: String!
@@ -57,7 +59,7 @@ input FolderInput {
     id: ID
     userId: ID!
     name: String!
-    parentFolderId: ID
+    parentId: ID
     coverUrl: String
     path: String
     isShared: Boolean
@@ -69,7 +71,7 @@ type FolderShareDocument {
     folder: FolderDocument
     sharedWith: UserDocument
     sharedBy: UserDocument
-    permission: String
+    permission: [String!]!
     createdAt: String
     updatedAt: String
 }
@@ -79,7 +81,7 @@ input FolderShareInput {
     folderId: ID!
     sharedWithId: ID!
     sharedById: ID!
-    permission: String!
+    permission: [String!]!
 }
 
 type MediaDocument {
@@ -130,7 +132,7 @@ type MediaShareDocument {
     media: MediaDocument
     sharedWith: UserDocument
     sharedBy: UserDocument
-    permission: String
+    permission: [String!]!
     createdAt: String
     updatedAt: String
 }
@@ -140,7 +142,7 @@ input MediaShareInput {
     mediaId: ID!
     sharedWithId: ID!
     sharedById: ID!
-    permission: String!
+    permission: [String!]!
 }
 
 type PermissionDocument {

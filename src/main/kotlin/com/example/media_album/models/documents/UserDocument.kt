@@ -5,12 +5,10 @@ import org.bson.types.ObjectId
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
-import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
 import java.time.Instant
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 @Document(collection = "users")
 data class UserDocument(
@@ -30,7 +28,7 @@ data class UserDocument(
     @Field("status_user")
     val statusUser: String = "active", // active | inactive | banned
 
-    val roles: List<ObjectId> = emptyList(),
+    val roleIds: List<ObjectId> = emptyList(),
 
     @CreatedDate
     @Field("created_at")

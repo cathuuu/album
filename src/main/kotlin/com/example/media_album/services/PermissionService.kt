@@ -9,4 +9,6 @@ interface PermissionService: CommonService<PermissionDocument, ObjectId> {
     fun updatePermission(permissionDocument: PermissionInput): PermissionDocument
 
     fun createPermission(permissionDocument: PermissionInput): PermissionDocument?
+
+    fun checkPermission(userId: ObjectId, mediaId: ObjectId, permission: String): Boolean
 }

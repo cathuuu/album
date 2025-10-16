@@ -21,4 +21,6 @@ interface FolderShareRepository : CommonRepository<FolderShareDocument, ObjectId
         "{ \$match: { 'sharedUser.fullName': ?0 } }"
     ])
     fun findBySharedByName(fullName: String): List<FolderShareDocument>
+
+    fun findByFolderAndSharedWith(folderId: ObjectId, userId: ObjectId) : FolderShareDocument?
 }
