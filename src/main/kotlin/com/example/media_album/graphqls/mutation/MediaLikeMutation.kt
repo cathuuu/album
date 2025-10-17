@@ -16,8 +16,8 @@ class MediaLikeMutation(
     private val mediaLike: MediaLikeService,
 ) {
     @DgsMutation
-    fun createMediaLike(@InputArgument mediaLikeDocument: MediaLikeInput) : MediaLikeDocument? {
-        return mediaLike.createMediaLike(mediaLikeDocument)
+    fun createMediaLike(@InputArgument input: MediaLikeInput) : MediaLikeDocument? {
+        return mediaLike.createMediaLike(input)
     }
     @DgsMutation
     fun deleteMediaLike(@InputArgument(name = "id") id: String): Boolean  {

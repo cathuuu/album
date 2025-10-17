@@ -19,7 +19,7 @@ data class RoleDocument(
     val roleName: String,
 
     @Field("permission_Id")
-    val permissions: List<ObjectId> = emptyList(),
+    val permissions: List<String> = emptyList(),
 
     @CreatedDate
     @Field("created_at")

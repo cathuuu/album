@@ -1,6 +1,7 @@
 package com.example.media_album.models.documents
 
 
+import com.example.media_album.enums.MediaType
 import org.bson.types.ObjectId
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
@@ -22,16 +23,28 @@ data class MediaDocument(
     @Field("folder_id")
     val folder: ObjectId? = null,
 
-    val type: String, // "photo" | "video"
-    val url: String,
+    @Field("type")
+    val type: MediaType = MediaType.OTHER,
+
+    val url: String? = null,
+
     val filename: String,
+
+    @Field("stored_filename")
+    val storedFilename: String,
 
     @Field("mime_type")
     val mimeType: String? = null,
+
     val size: Long? = null, // bytes
 
     @Field("is_deleted")
     val isDeleted: Boolean = false,
+
+    // 🔹 Thêm trường này để lưu đường dẫn thực tế (vật lý)
+    @Field("path")
+    val path: String? = null,
+
 
     @CreatedDate
     @Field("created_at")

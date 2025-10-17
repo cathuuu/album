@@ -7,10 +7,17 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface FolderRepository: CommonRepository<FolderDocument, ObjectId>  {
-    fun findByUserIdAndParentIdIsNull(ownerId: ObjectId): List<FolderDocument>
+    fun findByOwnerIdAndParentIdIsNull(ownerId: ObjectId): List<FolderDocument>
     fun findByParentId(parentId: ObjectId): List<FolderDocument>
     @Query("{ 'name': ?0 }")
     fun findByFolderName(name: String): List<FolderDocument>
-    fun findByUserIdAndIsDeletedTrue(userId: ObjectId): List<FolderDocument>
-    fun findByUserIdAndNameAndParentId(userId: ObjectId, name: String, parentId: ObjectId?) : FolderDocument
+    fun findByOwnerIdAndIsDeletedTrue(userId: ObjectId): List<FolderDocument>
+    @Query("{ 'userId': ?0, 'name': ?1, 'parentId': ?2 }")
+    fun findByUserIdAndNameAndParentId(
+        userId: ObjectId,
+        name: String,
+        parentId: ObjectId?
+    ): FolderDocument?
+
+    fun findByOwnerIdAndNameAndParentId(ownerId: ObjectId, folderName: String, currentParentId: ObjectId?) : FolderDocument?
 }

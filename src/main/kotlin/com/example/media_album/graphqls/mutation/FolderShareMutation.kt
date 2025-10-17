@@ -20,12 +20,12 @@ class FolderShareMutation(
     }
 
     @DgsMutation
-    fun createShareFolder(@InputArgument folderShareDocument: FolderShareInput): FolderShareDocument? {
-        return folderShareService.createFolderShare(folderShareDocument)
+    fun createShareFolder(@InputArgument input: FolderShareInput): FolderShareDocument? {
+        return folderShareService.createFolderShare(input)
     }
 
     @DgsMutation
-    fun updateShareFolder(@InputArgument folderShareDocument: FolderShareInput): FolderShareDocument? {
-        return folderShareService.updateShareFolder(folderShareDocument)
+    fun updateShareFolder(@InputArgument input: FolderShareInput): FolderShareDocument? {
+        return folderShareService.updateShareFolder(input)
     }
 }

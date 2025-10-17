@@ -1,16 +1,16 @@
-package com.example.media_album.configs
-
-import graphql.scalars.ExtendedScalars
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import org.springframework.graphql.execution.RuntimeWiringConfigurer
-
-@Configuration
-class GraphQLConfig {
-    @Bean
-    fun runtimeWiringConfigurer(): RuntimeWiringConfigurer =
-        RuntimeWiringConfigurer { builder ->
-            builder
-                .scalar(ExtendedScalars.DateTime) //  Cho phép dùng kiểu DateTime trong GraphQL
-        }
-}
+//package com.example.media_album.configs
+//
+//import graphql.scalars.ExtendedScalars
+//import org.springframework.context.annotation.Bean
+//import org.springframework.context.annotation.Configuration
+//import org.springframework.graphql.execution.RuntimeWiringConfigurer
+//
+//@Configuration
+//class GraphQLConfig {
+//    @Bean
+//    fun runtimeWiringConfigurer(): RuntimeWiringConfigurer =
+//        RuntimeWiringConfigurer { builder ->
+//            builder
+//                .scalar(ExtendedScalars.DateTime) //  Cho phép dùng kiểu DateTime trong GraphQL
+//        }
+//}

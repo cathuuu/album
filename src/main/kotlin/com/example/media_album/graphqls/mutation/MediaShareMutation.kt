@@ -19,12 +19,12 @@ class MediaShareMutation(
     }
 
     @DgsMutation
-    fun createMediaShare(@InputArgument mediaShareDocument: MediaShareInput): MediaShareDocument? {
-        return mediaShareService.createMediaShare(mediaShareDocument)
+    fun createMediaShare(@InputArgument input: MediaShareInput): MediaShareDocument? {
+        return mediaShareService.createMediaShare(input)
     }
 
     @DgsMutation
-    fun updateMediaShare(@InputArgument mediaShareDocument: MediaShareInput): MediaShareDocument? {
-        return mediaShareService.updateMediaShare(mediaShareDocument)
+    fun updateMediaShare(@InputArgument input: MediaShareInput): MediaShareDocument? {
+        return mediaShareService.updateMediaShare(input)
     }
 }

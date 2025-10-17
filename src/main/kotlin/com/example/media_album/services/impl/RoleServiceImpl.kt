@@ -22,8 +22,8 @@ class RoleServiceImpl(repo : RoleRepository,
             .orElseThrow { RuntimeException("Role not found") }
 
         // Lấy danh sách permission từ DB nếu có
-        val permissions = roleDocument.permissionIds?.map { ObjectId(it) }
-            ?: existingRole.permissions
+        val permissions = roleDocument.permissionIds ?: existingRole.permissions
+
 
         // Cập nhật thông tin
         val updatedRole = existingRole.copy(
@@ -36,12 +36,11 @@ class RoleServiceImpl(repo : RoleRepository,
     }
 
     override fun createRole(roleDocument: RoleInput): RoleDocument {
-        val permissionObjectIds = roleDocument.permissionIds?.map { ObjectId(it) } ?: emptyList()
 
 
         val role = RoleDocument(
             roleName = roleDocument.roleName,
-            permissions = permissionObjectIds
+            permissions = roleDocument.permissionIds ?: emptyList(),
         )
         return repo.save(role)
     }

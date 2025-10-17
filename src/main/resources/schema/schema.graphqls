@@ -1,20 +1,22 @@
 scalar DateTime
 
+# ===================== UNION =====================
 union FileSystemItem = FolderDocument | MediaDocument
 
+# ===================== USER =====================
 type UserDocument {
-    id: ID
-    username: String
-    password: String
+    id: ID!
+    username: String!
+    password: String!
     fullName: String
     gender: String
     dob: DateTime
-    roleIds :[ID!]
+    roleIds: [ID!]
     email: String
     phone: String
     statusUser: String
-    createdAt: String
-    updatedAt: String
+    createdAt: DateTime
+    updatedAt: DateTime
 }
 
 input CreateUserInput {
@@ -28,36 +30,35 @@ input CreateUserInput {
     phone: String
 }
 
+input UpdateUserInput {
+    id: ID!
+    username: String
+    fullName: String
+    gender: String
+    dob: DateTime
+    roleIds: [ID!]
+    email: String
+    phone: String
+    statusUser: String
+}
+
+# ===================== FOLDER =====================
 type FolderDocument {
-    id: ID
-    user: UserDocument
+    id: ID!
+    ownerId: UserDocument!
     name: String!
-    parentId: FolderDocument
+    parentId: ID
     coverUrl: String
     isShared: Boolean
     path: String!
     isDeleted: Boolean
-    createdAt: String
-    updatedAt: String
-}
-
-
-
-input UserInput{
-    id: ID
-    username: String
-    phone: String
-    email: String
-    fullName: String
-    gender: String
-    dob: String
-    statusUser: String
-    roleIds: [ID!]
+    createdAt: DateTime
+    updatedAt: DateTime
 }
 
 input FolderInput {
     id: ID
-    userId: ID!
+    ownerId: ID!
     name: String!
     parentId: ID
     coverUrl: String
@@ -66,14 +67,15 @@ input FolderInput {
     isDeleted: Boolean
 }
 
+# ===================== FOLDER SHARE =====================
 type FolderShareDocument {
-    id: ID
-    folder: FolderDocument
-    sharedWith: UserDocument
-    sharedBy: UserDocument
-    permission: [String!]!
-    createdAt: String
-    updatedAt: String
+    id: ID!
+    folder: FolderDocument!
+    sharedWith: UserDocument!
+    sharedBy: UserDocument!
+    permission: [String!]! # ["VIEW", "EDIT", "DELETE"]
+    createdAt: DateTime
+    updatedAt: DateTime
 }
 
 input FolderShareInput {
@@ -84,9 +86,10 @@ input FolderShareInput {
     permission: [String!]!
 }
 
+# ===================== MEDIA =====================
 type MediaDocument {
-    id: ID
-    user: UserDocument
+    id: ID!
+    owner: UserDocument!
     folder: FolderDocument
     type: String
     url: String
@@ -94,8 +97,8 @@ type MediaDocument {
     mimeType: String
     size: Float
     isDeleted: Boolean
-    createdAt: String
-    updatedAt: String
+    createdAt: DateTime
+    updatedAt: DateTime
     photoMeta: PhotoMeta
     videoMeta: VideoMeta
     likeCount: Int
@@ -113,12 +116,12 @@ type VideoMeta {
     frameRate: Int
 }
 
-
+# ===================== MEDIA LIKE =====================
 type MediaLikeDocument {
-    id: ID
-    media: MediaDocument
-    user: UserDocument
-    createdAt: String
+    id: ID!
+    media: MediaDocument!
+    user: UserDocument!
+    createdAt: DateTime
 }
 
 input MediaLikeInput {
@@ -127,14 +130,15 @@ input MediaLikeInput {
     userId: ID!
 }
 
+# ===================== MEDIA SHARE =====================
 type MediaShareDocument {
-    id: ID
-    media: MediaDocument
-    sharedWith: UserDocument
-    sharedBy: UserDocument
+    id: ID!
+    media: MediaDocument!
+    sharedWith: UserDocument!
+    sharedBy: UserDocument!
     permission: [String!]!
-    createdAt: String
-    updatedAt: String
+    createdAt: DateTime
+    updatedAt: DateTime
 }
 
 input MediaShareInput {
@@ -145,11 +149,12 @@ input MediaShareInput {
     permission: [String!]!
 }
 
+# ===================== PERMISSION =====================
 type PermissionDocument {
-    id: ID
-    permissionName: String
-    createdAt: String
-    updatedAt: String
+    id: ID!
+    permissionName: String!
+    createdAt: DateTime
+    updatedAt: DateTime
 }
 
 input PermissionInput {
@@ -157,59 +162,78 @@ input PermissionInput {
     permissionName: String!
 }
 
+# ===================== ROLE =====================
 type RoleDocument {
-    id: ID
-    roleName: String
-    permissions: [PermissionDocument]
-    createdAt: String
-    updatedAt: String
-}
-input RoleInput {
+    id: ID!
     roleName: String!
-    permissionIds: [ID!]
-}
-type Mutation {
-    createUser(userDocument: CreateUserInput!): UserDocument
-    updateUser(userDocument: UserInput!): UserDocument
-    deleteUser(id : ID!): Boolean
-
-    createFolder(folderDocument: FolderInput): FolderDocument
-    updateFolder(folderDocument: FolderInput!): FolderDocument
-    deleteFolder(id: ID!): Boolean
-
-    createShareFolder(folderShareDocument: FolderShareInput!): FolderShareDocument
-    updateShareFolder(folderShareDocument: FolderShareInput!): FolderShareDocument
-    deleteShareFolder(id: ID!): Boolean
-
-    createMediaLike(mediaLikeDocument: MediaLikeInput!): MediaLikeDocument
-    deleteMediaLike(id: ID!): Boolean
-
-    createMediaShare(mediaShareDocument: MediaShareInput!): MediaShareDocument
-    updateMediaShare(mediaShareDocument: MediaShareInput!): MediaShareDocument
-    deleteMediaShare(id: ID!): Boolean
-
-    createPermission(permissionDocument: PermissionInput!): PermissionDocument
-    updatePermission(permissionDocument: PermissionInput!): PermissionDocument
-    deletePermission(id: ID!): Boolean
-
-    createRole(roleDocument: RoleInput!): RoleDocument
-    updateRole(roleDocument: RoleInput!): RoleDocument
-    deleteRole(id: ID!): Boolean
+    permissions: [PermissionDocument!]!
+    createdAt: DateTime
+    updatedAt: DateTime
 }
 
-type Query{
+input RoleInput {
+    id: ID
+    roleName: String!
+    permissionIds: [ID!]!
+}
+
+# ===================== QUERY =====================
+type Query {
+    # File system
     rootItems(userId: ID!): [FileSystemItem]
     getFolderContents(folderId: ID!): [FileSystemItem]
-    getDeletedItems( userId: String): [FileSystemItem]
+    getDeletedItems(userId: ID!): [FileSystemItem]
 
+    # Folder
     getFolder(id: ID!): FolderDocument
     getAllFolders: [FolderDocument]
 
-    findFolderSharesWithByUserFullName(fullName : String): FolderShareDocument
-    findFolderSharesByUserFullName(fullName: String): FolderShareDocument
+    # Folder share
+    findFolderSharesWithByUserFullName(fullName: String!): [FolderShareDocument]
+    findFolderSharesByUserFullName(fullName: String!): [FolderShareDocument]
 
-    findMediaShareWithByUserFullName(fullName : String): MediaShareDocument
-    findMediaShareByUserFullName(fullName: String): MediaShareDocument
+    # Media share
+    findMediaShareWithByUserFullName(fullName: String!): [MediaShareDocument]
+    findMediaShareByUserFullName(fullName: String!): [MediaShareDocument]
 
+    # Media like
     findAllByUserId(userId: ID!): [MediaLikeDocument]
+
+}
+
+# ===================== MUTATION =====================
+type Mutation {
+    # User
+    createUser(input: CreateUserInput!): UserDocument
+    updateUser(input: UpdateUserInput!): UserDocument
+    deleteUser(id: ID!): Boolean
+
+    # Folder
+    createFolder(input: FolderInput!): FolderDocument
+    updateFolder(input: FolderInput!): FolderDocument
+    deleteFolder(id: ID!): Boolean
+
+    # Folder share
+    createShareFolder(input: FolderShareInput!): FolderShareDocument
+    updateShareFolder(input: FolderShareInput!): FolderShareDocument
+    deleteShareFolder(id: ID!): Boolean
+
+    # Media like
+    createMediaLike(input: MediaLikeInput!): MediaLikeDocument
+    deleteMediaLike(id: ID!): Boolean
+
+    # Media share
+    createMediaShare(input: MediaShareInput!): MediaShareDocument
+    updateMediaShare(input: MediaShareInput!): MediaShareDocument
+    deleteMediaShare(id: ID!): Boolean
+
+    # Permission
+    createPermission(input: PermissionInput!): PermissionDocument
+    updatePermission(input: PermissionInput!): PermissionDocument
+    deletePermission(id: ID!): Boolean
+
+    # Role
+    createRole(input: RoleInput!): RoleDocument
+    updateRole(input: RoleInput!): RoleDocument
+    deleteRole(id: ID!): Boolean
 }

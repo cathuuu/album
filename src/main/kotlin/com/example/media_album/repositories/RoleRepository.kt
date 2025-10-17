@@ -5,4 +5,7 @@ import org.bson.types.ObjectId
 import org.springframework.stereotype.Repository
 
 @Repository
-interface RoleRepository : CommonRepository<RoleDocument, ObjectId>
+interface RoleRepository : CommonRepository<RoleDocument, ObjectId> {
+   // fun findByPermissions(permissions: MutableList<String>): MutableList<RoleDocument>
+    fun findByPermissions() : List<RoleDocument>
+}

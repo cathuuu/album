@@ -14,8 +14,8 @@ data class FolderDocument(
     @Id
     val id: ObjectId? = null,
 
-    @Field("user_id")
-    var userId: ObjectId?=null,
+    @Field("owner_id")
+    var ownerId: ObjectId?=null,
 
     var name: String,
 
@@ -27,13 +27,13 @@ data class FolderDocument(
     var coverUrl: String? = null,
 
     @Field("is_shared")
-    var isShared: Boolean? = false,
+    var isShared: Boolean = false,
 
     @Field("path")
     var path: String? = null,
 
     @Field("is_deleted")
-    var isDeleted: Boolean? = false,
+    var isDeleted: Boolean = false,
 
     @CreatedDate
     @Field("created_at")

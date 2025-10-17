@@ -35,8 +35,8 @@ data class MediaDto(
                 isShared = false,
                 isDeleted = doc.isDeleted,
 
-                fileType = doc.type,
-                url = doc.url,
+                fileType = doc.type.toString(),
+                url = doc.url.toString(),
                 mimeType = doc.mimeType,
                 size = doc.size,
                 // Lấy ID của FolderDocument (tham chiếu)

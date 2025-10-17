@@ -4,7 +4,7 @@ import org.bson.types.ObjectId
 import java.time.Instant
 import java.time.LocalDate
 
-data class  UserInput(
+data class  UpdateUserInput(
     val id: ObjectId? = null,
     val username: String,
     val password: String,

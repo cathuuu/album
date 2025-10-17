@@ -2,7 +2,7 @@ package com.example.media_album.graphqls.mutation
 
 import com.example.media_album.models.documents.UserDocument
 import com.example.media_album.models.dtos.input.CreateUserInput
-import com.example.media_album.models.dtos.input.UserInput
+import com.example.media_album.models.dtos.input.UpdateUserInput
 import com.example.media_album.services.UserService
 import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsMutation
@@ -15,23 +15,23 @@ class UserMutation(
     private val userService: UserService,
 ) {
     @DgsMutation
-    fun createUser(@InputArgument userDocument: CreateUserInput): UserDocument? {
-        val roleObjectIds = userDocument.roleIds.map { ObjectId(it) }
+    fun createUser(@InputArgument input: CreateUserInput): UserDocument? {
+        val roleObjectIds = input.roleIds.map { ObjectId(it) }
         val newUser = UserDocument(
-            username = userDocument.username,
-            password = userDocument.password,
-            fullName = userDocument.fullName,
-            gender = userDocument.gender,
+            username = input.username,
+            password = input.password,
+            fullName = input.fullName,
+            gender = input.gender,
             roleIds = roleObjectIds,
-            dob = userDocument.dob, // GraphQL auto convert
-            email = userDocument.email,
-            phone = userDocument.phone
+            dob = input.dob, // GraphQL auto convert
+            email = input.email,
+            phone = input.phone
         )
         return userService.save(newUser)
     }
     @DgsMutation
-    fun updateUser(@InputArgument userDocument: UserInput) : UserDocument? {
-        return userService.updateUser(userDocument)
+    fun updateUser(@InputArgument input: UpdateUserInput) : UserDocument? {
+        return userService.updateUser(input)
     }
 
     @DgsMutation

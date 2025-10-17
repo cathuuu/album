@@ -19,12 +19,12 @@ class PermissionMutation(
     }
 
     @DgsMutation
-    fun createPermission(@InputArgument permissionDocument: PermissionInput): PermissionDocument? {
-        return permissionService.createPermission(permissionDocument)
+    fun createPermission(@InputArgument input: PermissionInput): PermissionDocument? {
+        return permissionService.createPermission(input)
     }
 
     @DgsMutation
-    fun updatePermission(@InputArgument permissionDocument: PermissionInput): PermissionDocument? {
-        return permissionService.updatePermission(permissionDocument)
+    fun updatePermission(@InputArgument input: PermissionInput): PermissionDocument? {
+        return permissionService.updatePermission(input)
     }
 }

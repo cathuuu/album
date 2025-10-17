@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface PermissionRepository : CommonRepository<PermissionDocument, ObjectId> {
+    fun findAllById(userId: Long): List<PermissionDocument>
 }

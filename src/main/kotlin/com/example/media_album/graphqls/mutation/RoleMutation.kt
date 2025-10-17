@@ -16,13 +16,13 @@ class RoleMutation(
 ) {
     @DgsMutation
     fun createRole(
-        @InputArgument roleDocument: RoleInput
+        @InputArgument input: RoleInput
     ): RoleDocument? {
-        return roleService.createRole(roleDocument)
+        return roleService.createRole(input)
     }
     @DgsMutation
-    fun updateRole(@InputArgument roleDocument: RoleInput) : RoleDocument? {
-        return roleService.updateRole(roleDocument)
+    fun updateRole(@InputArgument input: RoleInput) : RoleDocument? {
+        return roleService.updateRole(input)
     }
 
     @DgsMutation
