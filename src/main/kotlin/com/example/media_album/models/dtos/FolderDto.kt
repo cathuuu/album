@@ -10,6 +10,7 @@ data class FolderDto(
     override val createdAt: Instant,
     override val updatedAt: Instant?,
     override val isShared: Boolean,
+    override val path: String,
     override val isDeleted: Boolean,
 
 // Các trường đặc trưng của Folder
@@ -30,7 +31,7 @@ data class FolderDto(
                 updatedAt = doc.updatedAt,
                 isShared = doc.isShared ?: false, // Xử lý null
                 isDeleted = doc.isDeleted ?: false, // Xử lý null
-
+                path = doc.path ?: "",
                 // Lấy ID của Folder cha (tham chiếu)
                 parentFolderId = doc.parentId?.toHexString(),
                 coverUrl = doc.coverUrl,

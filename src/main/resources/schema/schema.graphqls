@@ -3,6 +3,8 @@ scalar DateTime
 # ===================== UNION =====================
 union FileSystemItem = FolderDocument | MediaDocument
 
+
+
 # ===================== USER =====================
 type UserDocument {
     id: ID!
@@ -44,13 +46,13 @@ input UpdateUserInput {
 
 # ===================== FOLDER =====================
 type FolderDocument {
-    id: ID!
-    ownerId: UserDocument!
+    id: ID
+    ownerId: UserDocument
     name: String!
     parentId: ID
     coverUrl: String
     isShared: Boolean
-    path: String!
+    path: String
     isDeleted: Boolean
     createdAt: DateTime
     updatedAt: DateTime
@@ -69,10 +71,10 @@ input FolderInput {
 
 # ===================== FOLDER SHARE =====================
 type FolderShareDocument {
-    id: ID!
-    folder: FolderDocument!
-    sharedWith: UserDocument!
-    sharedBy: UserDocument!
+    id: ID
+    folder: FolderDocument
+    sharedWith: UserDocument
+    sharedBy: UserDocument
     permission: [String!]! # ["VIEW", "EDIT", "DELETE"]
     createdAt: DateTime
     updatedAt: DateTime
@@ -88,8 +90,8 @@ input FolderShareInput {
 
 # ===================== MEDIA =====================
 type MediaDocument {
-    id: ID!
-    owner: UserDocument!
+    id: ID
+    owner: UserDocument
     folder: FolderDocument
     type: String
     url: String
@@ -189,12 +191,12 @@ type Query {
     getAllFolders: [FolderDocument]
 
     # Folder share
-    findFolderSharesWithByUserFullName(fullName: String!): [FolderShareDocument]
-    findFolderSharesByUserFullName(fullName: String!): [FolderShareDocument]
+    findFolderSharesWith(shareWith: ID!): [FolderShareDocument]
+    findFolderSharesBy(shareBy: ID!): [FolderShareDocument]
 
     # Media share
-    findMediaShareWithByUserFullName(fullName: String!): [MediaShareDocument]
-    findMediaShareByUserFullName(fullName: String!): [MediaShareDocument]
+    findMediaShareWith(shareWith: ID!): [MediaShareDocument]
+    findMediaShareBy(shareBy: ID!): [MediaShareDocument]
 
     # Media like
     findAllByUserId(userId: ID!): [MediaLikeDocument]

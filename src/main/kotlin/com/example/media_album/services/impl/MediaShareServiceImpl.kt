@@ -3,6 +3,7 @@ package com.example.media_album.services.impl
 import com.example.media_album.codegen.types.MediaShareInput
 import com.example.media_album.enums.PermissionType
 import com.example.media_album.models.documents.MediaShareDocument
+import com.example.media_album.models.dtos.MediaShareDto
 import com.example.media_album.repositories.MediaRepository
 import com.example.media_album.repositories.MediaShareRepository
 import com.example.media_album.repositories.UserRepository
@@ -90,9 +91,35 @@ class MediaShareServiceImpl(
     }
 
     // ==================== FIND ====================
-    override fun findByShareWithUserFullName(userName: String): List<MediaShareDocument> =
-        repo.findBySharedWithName(userName)
+    override fun findMediaShareBySharedWith(userId: ObjectId): List<MediaShareDto> {
+        val shares = repo.findBySharedWith(userId)
+        return shares.map { share ->
+            val media = mediaRepo.findById(share.media).orElse(null)  // fetch MediaDocument
+            MediaShareDto(
+                id = share.id,
+                permission = share.permission,
+                createdAt = share.createdAt,
+                updatedAt = share.updatedAt,
+                media = media,
+                sharedBy = share.sharedBy,
+                sharedWith = share.sharedWith
+            )
+        }
+    }
 
-    override fun findByShareByUserFullName(userName: String): List<MediaShareDocument> =
-        repo.findBySharedByName(userName)
+    override fun findMediaShareByShareBy(userId: ObjectId): List<MediaShareDto?>  {
+        val shares = repo.findBySharedBy(userId)
+        return shares.map { share ->
+            val media = mediaRepo.findById(share.media).orElse(null)  // fetch MediaDocument
+            MediaShareDto(
+                id = share.id,
+                permission = share.permission,
+                createdAt = share.createdAt,
+                updatedAt = share.updatedAt,
+                media = media,
+                sharedBy = share.sharedBy,
+                sharedWith = share.sharedWith
+            )
+        }
+    }
 }

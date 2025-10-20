@@ -22,7 +22,7 @@ class FileSystemService(
         // 1. Lấy tất cả các Folder gốc
         val rootFolders = folderService.findRootFoldersByOwnerId(userId)
             // Ánh xạ sang DTO. itemCount tạm đặt là 0 (hoặc cần truy vấn count)
-            .map { FolderDto.fromDocument(it, itemCount = 0) }
+            .map {  FolderDto.fromDocument(it, itemCount = 0) }
 
         // 2. Lấy tất cả Media không thuộc Folder nào
         val unorganizedMedia = mediaService.findUnorganizedMediaByUserId(userId)

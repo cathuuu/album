@@ -20,7 +20,7 @@ data class MediaDto(
     val thumbnailUrl: String? = null, // Ảnh thumbnail cho UI (tính toán thêm)
 
     // Thuộc tính cố định
-    override val itemType: String = "media"
+    override val itemType: String = "media", override val path: String
 ) : FileSystemItem {
 
     companion object {
@@ -34,7 +34,7 @@ data class MediaDto(
                 // tạm đặt là false hoặc cần xem lại Document
                 isShared = false,
                 isDeleted = doc.isDeleted,
-
+                path = doc.path ?: "",
                 fileType = doc.type.toString(),
                 url = doc.url.toString(),
                 mimeType = doc.mimeType,

@@ -23,4 +23,9 @@ class FolderQuery(
     fun getAllFolders(): MutableList<FolderDocument?>? {
         return folderService.getAll()
     }
+
+//    @DgsQuery
+//    fun getAllFoldersInFolder(@InputArgument id: String): MutableList<FolderDocument>? {
+//        return
+//    }
 }

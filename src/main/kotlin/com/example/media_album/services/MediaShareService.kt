@@ -1,8 +1,8 @@
 package com.example.media_album.services
 
 import com.example.media_album.codegen.types.MediaShareInput
-import com.example.media_album.models.documents.FolderShareDocument
 import com.example.media_album.models.documents.MediaShareDocument
+import com.example.media_album.models.dtos.MediaShareDto
 import org.bson.types.ObjectId
 
 interface MediaShareService : CommonService<MediaShareDocument, ObjectId> {
@@ -10,7 +10,7 @@ interface MediaShareService : CommonService<MediaShareDocument, ObjectId> {
 
     fun createMediaShare(mediaShareDocument: MediaShareInput): MediaShareDocument?
 
-    fun findByShareWithUserFullName(userName: String): List<MediaShareDocument?>
+    fun findMediaShareBySharedWith(userId: ObjectId): List<MediaShareDto>
 
-    fun findByShareByUserFullName(userName: String): List<MediaShareDocument?>
+    fun findMediaShareByShareBy(userId: ObjectId): List<MediaShareDto?>
 }

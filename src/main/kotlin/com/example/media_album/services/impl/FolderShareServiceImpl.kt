@@ -2,6 +2,7 @@ package com.example.media_album.services.impl
 
 import com.example.media_album.enums.PermissionType
 import com.example.media_album.models.documents.FolderShareDocument
+import com.example.media_album.models.dtos.FolderShareDto
 import com.example.media_album.models.dtos.input.FolderShareInput
 import com.example.media_album.repositories.FolderRepository
 import com.example.media_album.repositories.FolderShareRepository
@@ -98,9 +99,37 @@ class FolderShareServiceImpl(
     }
 
     // ==================== FIND ====================
-    override fun findByShareWithUserFullName(userName: String): List<FolderShareDocument> =
-        repo.findBySharedWithName(userName)
+    override fun findByShareWith(shareWith: ObjectId): List<FolderShareDto?> {
+    val shares = repo.findBySharedWith(shareWith)
+    return shares.map { share ->
+        val folder = folderRepo.findById(share.folder).orElse(null) // fetch FolderDocument
+        FolderShareDto(
+            id = share.id.toString(),
+            sharedWith = share.sharedWith.toString(),
+            sharedBy = share.sharedBy.toString(),
+            permission = share.permission,
+            inherited = share.inherited,
+            createdAt = share.createdAt,
+            updatedAt = share.updatedAt,
+            folder = folder
+        )
+    }
+}
 
-    override fun findByShareByUserFullName(userName: String): List<FolderShareDocument> =
-        repo.findBySharedByName(userName)
+    override fun findByShareBy(shareBy: ObjectId): List<FolderShareDto> {
+        val shares = repo.findBySharedBy(shareBy)
+        return shares.map { share ->
+            val folder = folderRepo.findById(share.folder).orElse(null) // fetch FolderDocument
+            FolderShareDto(
+                id = share.id.toString(),
+                sharedWith = share.sharedWith.toString(),
+                sharedBy = share.sharedBy.toString(),
+                permission = share.permission,
+                inherited = share.inherited,
+                createdAt = share.createdAt,
+                updatedAt = share.updatedAt,
+                folder = folder
+            )
+        }
+    }
 }

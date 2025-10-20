@@ -6,6 +6,7 @@ interface FileSystemItem {
     val id: String           // ID của Document
     val name: String         // Tên để hiển thị (filename hoặc folder name)
     val itemType: String     // Phân loại: "folder" hoặc "media"
+    val path: String
     val createdAt: Instant   // Thời điểm tạo
     val updatedAt: Instant?  // Thời điểm cập nhật
     val isShared: Boolean    // Trạng thái chia sẻ

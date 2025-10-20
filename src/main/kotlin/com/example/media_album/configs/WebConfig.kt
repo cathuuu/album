@@ -31,8 +31,8 @@ class WebConfig(
     fun corsConfigurer(): WebMvcConfigurer {
         return object : WebMvcConfigurer {
             override fun addCorsMappings(registry: CorsRegistry) {
-                registry.addMapping("/api/**")
-                    .allowedOrigins("http://localhost:5173") //  domain FE
+                registry.addMapping("/**") // ✅ Cho phép tất cả route, bao gồm /graphql
+                    .allowedOrigins("http://localhost:5173")
                     .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                     .allowedHeaders("*")
                     .allowCredentials(true)
